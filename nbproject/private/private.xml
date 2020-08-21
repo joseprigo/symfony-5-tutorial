@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/home/josep/symfony-01/config/packages/doctrine.yaml</file>
+            <file>file:/home/josep/symfony-01/config/services.yaml</file>
+            <file>file:/home/josep/symfony-01/src/Controller/NotificationController.php</file>
+            <file>file:/home/josep/symfony-01/src/Entity/Notification.php</file>
+            <file>file:/home/josep/symfony-01/src/Repository/NotificationRepository.php</file>
+            <file>file:/home/josep/symfony-01/src/Repository/LikeNotificationRepository.php</file>
+        </group>
+    </open-files>
+</project-private>
