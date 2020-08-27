@@ -4,11 +4,29 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/josep/symfony-01/config/packages/doctrine.yaml</file>
+            <file>file:/home/josep/symfony-01/composer.json</file>
+            <file>file:/home/josep/symfony-01/config/routes.yaml</file>
+            <file>file:/home/josep/symfony-01/.env.test</file>
+            <file>file:/home/josep/symfony-01/.gitignore</file>
+            <file>file:/home/josep/symfony-01/src/Entity/Notification.php</file>
+            <file>file:/home/josep/symfony-01/config/packages/dev/web_profiler.yaml</file>
+            <file>file:/home/josep/symfony-01/migrations/Version20200722112110.php</file>
+            <file>file:/home/josep/symfony-01/.env</file>
+            <file>file:/home/josep/symfony-01/src/Twig/AppExtension.php</file>
+            <file>file:/home/josep/symfony-01/config/packages/prod/doctrine.yaml</file>
+            <file>file:/home/josep/symfony-01/config/packages/dev/debug.yaml</file>
+            <file>file:/home/josep/symfony-01/config/packages/framework.yaml</file>
+            <file>file:/home/josep/symfony-01/config/packages/dev/monolog.yaml</file>
             <file>file:/home/josep/symfony-01/config/services.yaml</file>
             <file>file:/home/josep/symfony-01/src/Controller/NotificationController.php</file>
-            <file>file:/home/josep/symfony-01/src/Entity/Notification.php</file>
+            <file>file:/home/josep/symfony-01/config/packages/dev/swiftmailer.yaml</file>
             <file>file:/home/josep/symfony-01/src/Repository/NotificationRepository.php</file>
+            <file>file:/home/josep/symfony-01/config/packages/prod/deprecations.yaml</file>
             <file>file:/home/josep/symfony-01/src/Repository/LikeNotificationRepository.php</file>
+            <file>file:/home/josep/symfony-01/config/packages/prod/routing.yaml</file>
+            <file>file:/home/josep/symfony-01/config/packages/prod/webpack_encore.yaml</file>
+            <file>file:/home/josep/symfony-01/config/packages/routing.yaml</file>
+            <file>file:/home/josep/symfony-01/config/packages/prod/monolog.yaml</file>
         </group>
     </open-files>
 </project-private>
