@@ -16,6 +16,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install apt
+          command: apt get install -y zlib1g-dev
+      - run:
           name: Install PHP MySQL
           command: sudo docker-php-ext-install pdo_mysql
       - run:
