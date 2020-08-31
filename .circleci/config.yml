@@ -50,7 +50,7 @@ jobs:
           command: php bin/console cache:clear --env=prod --no-interaction
       - run:
           name: Yarn
-          command: npm install && run encore production
+          command: yarn install && run encore production
       - run:
           name: Add droplet
           command: ssh-keyscn -H $DROPLET_IP >> ~/.ssh/known_hosts
