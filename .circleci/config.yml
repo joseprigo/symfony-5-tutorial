@@ -49,11 +49,8 @@ jobs:
           name: Clear Cache
           command: php bin/console cache:clear --env=prod --no-interaction
       - run:
-          name: Install Yarn
-          command: sudo apt-get install yarn
-      - run:
           name: Yarn
-          command: yarn install && run encore production
+          command: npm install && run encore production
       - run:
           name: Add droplet
           command: ssh-keyscn -H $DROPLET_IP >> ~/.ssh/known_hosts
