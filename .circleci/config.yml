@@ -49,6 +49,9 @@ jobs:
           name: Clear Cache
           command: php bin/console cache:clear --env=prod --no-interaction
       - run:
+          name: Install Yarn
+          command: sudo apt-get install yarn
+      - run:
           name: Yarn
           command: yarn install && run encore production
       - run:
