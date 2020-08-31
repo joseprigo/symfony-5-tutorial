@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/micropost
     docker:
-      - image: circleci/php:7.4.6-apache-strech-node-browsers
+      - image: circleci/php:7.4.6-apache-stretch-node-browsers
         environment:
           APP_ENV: test
           DATABASE_URL: mysql://root:root@127.0.0.1/micro-post
