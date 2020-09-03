@@ -58,7 +58,7 @@ jobs:
           command: yarn install && yarn run encore production
       - run:
           name: Add droplet
-          command: ssh-keyscn -H $DROPLET_IP >> ~/.ssh/known_hosts
+          command: ssh-keyscan -H $DROPLET_IP >> ~/.ssh/known_hosts
       - run:
           name: Pre-deploy
           command: ssh -T $DROPLET_USER:$DROPLET_IP < bin/deploy/pre_deploy.sh
