@@ -29,6 +29,7 @@ class BlogController extends AbstractController{
     private $router;
     private $greeting;
     
+    
     public function __construct(Greeting $greeting, RouterInterface $router)
     {
         $this->greeting = $greeting;
