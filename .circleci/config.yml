@@ -49,9 +49,6 @@ jobs:
           install-yarn: true
       - run: node --version
       - run:
-          name: rsync Install
-          command: sudo apt install rsync
-      - run:
           name: Composer Install
           command: composer install -n --prefer-dist
       - run:
