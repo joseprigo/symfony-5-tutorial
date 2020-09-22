@@ -63,9 +63,12 @@ jobs:
       - run:
           name: Pre-deploy
           command: ssh -T $DROPLET_USER@$DROPLET_IP < bin/deploy/pre_deploy.sh
-      - run:
-          name: Deploy code
-          command: rsync -vzcrSLhp --exclude '.env' --delete ~/micropost/ $DROPLET_USER@$DROPLET_IP:/var/www/micropost_current
+      - rsync/folder:
+          src: ~/micropost/
+          user: $DROPLET_USER
+          host: $DROPLET_IP
+          dest: /var/www/micropost_current
+          arguments: -vzcrSLhp --exclude '.env' --delete
       - run:
           name: Post deploy
           command: ssh -T $DROPLET_USER@$DROPLET_IP < bin/deploy/deploy.sh
