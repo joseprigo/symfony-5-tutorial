@@ -3,36 +3,110 @@ jobs:
   build:
     working_directory: ~/micropost
     docker:
-      - image: circleci/php:7.2.4-apache-stretch-node-browsers
+      - image: circleci/php:7.4.8-apache-buster-node-browsers
         environment:
           APP_ENV: test
-          DATABASE_URL: mysql://root:root@127.0.0.1/micro-post
-          MAILER_FORM: micro@micropost.com
-          MAILER_URL: null://localhost
-      - image: circleci/mysql:5.7
+          DATABASE_URL: mysql://root:root@127.0.0.1/micropost
+          MAILER_DSN: smtp://localhost
+          MAILER_DSN_INFO: smtp://localhost
+          MAILER_DSN_ADMIN: smtp://localhost
+      - image: circleci/mysql:8.0.21
         environment:
           MYSQL_ROOT_PASSWORD: 'root'
-          MYSQL_DATABASE: micro-post
+          MYSQL_DATABASE: micropost
     steps:
-      - checkout
-      - run: sudo docker-php-ext-install pdo_mysql
-      - run: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
-      - run: sudo composer self-update
-      - run: composer install -n --prefer-dist
-      - run: php bin/console doctrine:migrations:migrate --env=test --no-interaction
+      # fetch packages from the repository
+      - checkout:
+      - run:
+          name: update apt
+          command: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
+      - run:
+          name: Install PHP Mysql
+          command: sudo docker-php-ext-install pdo_mysql zip
+      - run:
+          name: Wait For Mysql
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
+      - run:
+          name: Update Composer
+          command: sudo composer self-update
+ 
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            # "composer.lock" can be used if it is committed to the repo
+            - v1-dependencies-{‌{ checksum "composer.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run:
+          name: Composer Install
+          command: composer install -n --prefer-dist
+      - save_cache:
+          key: v1-dependencies-{‌{ checksum "composer.json" }}
+          paths:
+            - ./vendor
+      - run:
+          name: Run migrations
+          command: php bin/console doctrine:migrations:migrate --env=test --no-interaction
+      #./bin/phpunit throws permission denied error, following command solves error:
+      - run:
+          name: chmod permissions
+          command: chmod +x ./bin/phpunit
+      - run:
+          name: Run tests
+          command: ./bin/phpunit
   deploy:
-    docker:
-      - image: circleci/php:7.2.4-apache-stretch-node-browsers
     working_directory: ~/micropost
+    docker:
+      - image: circleci/php:7.4.8-apache-buster-node-browsers
     steps:
       - checkout
-      - run: composer install -n --prefer-dist
-      - run: php bin/console cache:clear --env=prod --no-interaction
-      - run: yarn install && yarn run encore production
-      - run: ssh-keyscan -H 206.189.19.93 >> ~/.ssh/known_hosts
-      - run: ssh -T $DROPLET_USER@$DROPLET_IP < bin/deploy/pre_deploy.sh
-      - run: rsync -vzcrSLhp --exclude '.env' --delete ~/micropost/ $DROPLET_USER@$DROPLET_IP:/var/www/micropost_current
-      - run: ssh -T $DROPLET_USER@$DROPLET_IP < bin/deploy/deploy.sh
+ 
+      - run:
+          #in the tutorial worked without installation but in my case I need it to install it
+          name: install rsync
+          command: sudo apt install rsync
+      - run:
+          name: Composer install
+          command: composer install --prefer-dist
+      - run:
+          name: clear cache
+          command: php bin/console cache:clear --env=prod --no-interaction
+      - run:
+          name: Cache warm up
+          command: php bin/console cache:warmup --env=prod --no-interaction
+ 
+      #this code is what I used in my project (I did not use encore), example of running yarn install and npm commands in subdirectory
+      #- run:
+      #    name: Yarn install admin
+      #    command: yarn --cwd "assets/admin/tools"
+      #- run:
+      #    name: npm build admin
+           #note that even if changed directory to sub directory in this command next run commands will not affected by it 
+      #    command: cd assets/admin/tools && npm run build --prod
+ 
+ 
+      - run:
+          name: yarn install
+          command: yarn install && yarn run encore production
+ 
+      - run:
+          name: add droplet
+          command: ssh-keyscan -H $DROPLET_IP >> ~/.ssh/known_hosts
+      - run:
+          name: Pre deploy
+          command: ssh -T $DROPLET_USER@$DROPLET_IP < bin/deploy/pre_deploy.sh
+      - run:
+          name: Deploy code
+          #slash at the end of ~/micropost/ tells to upload only contents of micropost directory, otherwise it will upload folder itself too
+          #in course tutorial .env file was excluded: rsync -vzcrSLhp --exclude '.env' --delete ~/micropost/ $DROPLET_USER@$DROPLET_IP:/var/www/micropost_current
+          #but excluding it gives error:  Unable to read the "/var/www/micropost_current/.env" environment file. in /var/www/micropost_current/vendor/symfony/dotenv/Dotenv.php:510
+ 
+          #you can also exclude node_modules folder by adding --exclude node_modules . since we don't need it in production environment
+          command: rsync -vzcrSLhp --exclude node_modules --delete ~/micropost/ $DROPLET_USER@$DROPLET_IP:/var/www/micropost_current
+      - run:
+          name: Post Deploy
+          command: ssh -T $DROPLET_USER@$DROPLET_IP < bin/deploy/deploy.sh
+ 
 workflows:
   version: 2
   build-and-deploy:
@@ -43,4 +117,5 @@ workflows:
             - build
           filters:
             branches:
+              #deploy only code in master branch
               only: master
