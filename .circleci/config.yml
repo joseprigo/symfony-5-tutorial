@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   node: circleci/node@4.0.0
-  rsync: germade/rsync@0.0.1
+  rsync: aplazame/rsync@0.0.17
 jobs:
   build:
     working_directory: ~/micropost
