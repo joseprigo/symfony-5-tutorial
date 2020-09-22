@@ -10,6 +10,7 @@ jobs:
           MAILER_DSN: smtp://localhost
           MAILER_DSN_INFO: smtp://localhost
           MAILER_DSN_ADMIN: smtp://localhost
+          MYSQL_ROOT_PASSWORD: 'root'
       - image: circleci/mysql:8.0.21
         environment:
           MYSQL_ROOT_PASSWORD: 'root'
