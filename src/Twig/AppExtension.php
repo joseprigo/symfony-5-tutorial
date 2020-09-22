@@ -13,7 +13,6 @@ use Twig\Extension\GlobalsInterface;
 use Twig\TwigTest;
 use Twig\TwigFilter;
 
-
 /**
  * Description of AppExtension
  *
