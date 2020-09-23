@@ -6,7 +6,7 @@ jobs:
       - image: circleci/php:7.4.8-apache-buster-node-browsers
         environment:
           APP_ENV: test
-          DATABASE_URL: mysql://root:root@127.0.0.1/micropost
+          DATABASE_URL: mysql://root:root@127.0.0.1/micro-post
           MAILER_DSN: smtp://localhost
           MAILER_DSN_INFO: smtp://localhost
           MAILER_DSN_ADMIN: smtp://localhost
@@ -16,7 +16,7 @@ jobs:
         environment:
           MYSQL_USER: root
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: micropost
+          MYSQL_DATABASE: micro-post
     steps:
       # fetch packages from the repository
       - checkout:
